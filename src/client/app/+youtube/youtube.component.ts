@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
-
-import { NameListService } from '../shared/index';
+import { YoutubeService } from '../shared/index';
 
 /**
  * This class represents the lazy loaded YoutubeComponent.
@@ -11,28 +9,31 @@ import { NameListService } from '../shared/index';
   selector: 'sd-youtube',
   templateUrl: 'youtube.component.html',
   styleUrls: ['youtube.component.css'],
-  directives: [REACTIVE_FORM_DIRECTIVES]
 })
 export class YoutubeComponent {
 
-  newName: string;
-
   /**
    * Creates an instance of the YoutubeComponent with the injected
-   * NameListService.
+   * YoutubeService
    *
-   * @param {NameListService} nameListService - The injected NameListService.
+   * @param youtubeService
    */
-  constructor(public nameListService: NameListService) {}
+  constructor(public youtubeService: YoutubeService) {}
 
-  /**
-   * Calls the add method of the NameListService with the current newName value of the form.
-   * @return {boolean} false to prevent default form submit behavior to refresh the page.
-   */
-  addName(): boolean {
-    this.nameListService.add(this.newName);
-    this.newName = '';
-    return false;
+}
+
+class SearchResult {
+  id: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  videoUrl: string;
+
+  constructor(obj?: any) {
+    this.id = obj && obj.id || null;
+    this.title = obj && obj.title || null;
+    this.description = obj && obj.description || null;
+    this.thumbnailUrl = obj && obj.thumbnailUrl || null;
+    this.videoUrl = obj && obj.videoUrl || `https://www.youtube.com/watch?v=${this.id}`;
   }
-
 }
