@@ -3,4 +3,18 @@
     <h1>YouTube Search</h1>
     <i *ngIf="loading" class="material-icons md-48">hourglass_empty</i>
   </div>
+  <div class="row">
+    <div class="input-group input-group-lg col-md-12">
+      <search-box
+        (loading)="loading = $event"
+        (results)="updateResults($event)"
+      ></search-box>
+    </div>
+  </div>
+  <div class="row">
+    <search-result
+      *ngFor="let result of results"
+      [result]="result"
+    ></search-result>
+  </div>
 </div>
