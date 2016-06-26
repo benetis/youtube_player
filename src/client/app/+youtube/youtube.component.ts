@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, provide } from '@angular/core';
 import { YoutubeService } from '../shared/index';
+import { ReflectiveInjector } from '@angular/core';
 
 /**
  * This class represents the lazy loaded YoutubeComponent.
@@ -9,6 +10,7 @@ import { YoutubeService } from '../shared/index';
   selector: 'sd-youtube',
   templateUrl: 'youtube.component.html',
   styleUrls: ['youtube.component.css'],
+  providers: [YoutubeService]
 })
 export class YoutubeComponent {
 
@@ -18,7 +20,8 @@ export class YoutubeComponent {
    *
    * @param youtubeService
    */
-  constructor(public youtubeService: YoutubeService) {}
+  constructor(public youtubeService: YoutubeService) {
+  }
 
 }
 
@@ -37,3 +40,9 @@ class SearchResult {
     this.videoUrl = obj && obj.videoUrl || `https://www.youtube.com/watch?v=${this.id}`;
   }
 }
+
+// export var youTubeServiceInjectables: Array<any> = [
+//   bind(YoutubeService).toClass(YoutubeService),
+//   bind(YOUTUBE_API_KEY).toValue(YOUTUBE_API_KEY),
+//   bind(YOUTUBE_API_URL).toValue(YOUTUBE_API_URL)
+// ];
