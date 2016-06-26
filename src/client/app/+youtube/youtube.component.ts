@@ -11,7 +11,7 @@ import {Observable} from "rxjs/Rx";
       <input type="text" class="form-control" placeholder="Search" autofocus>
     `
 })
-class SearchBox implements OnInit {
+class SearchBoxComponent implements OnInit {
   loading:EventEmitter<boolean> = new EventEmitter<boolean>();
   results:EventEmitter<SearchResult[]> = new EventEmitter<SearchResult[]>();
 
@@ -44,6 +44,27 @@ class SearchBox implements OnInit {
   }
 }
 
+@Component({
+  inputs: ['result'],
+  selector: 'search-result',
+  template: `
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+    <img src="{{result.thumbnailUrl}}">
+    <div class="caption">
+      <h3>{{result.title}}</h3>
+      <p>{{result.description}}</p>
+      <p><a href="{{result.videoUrl}}"
+      class="btn btn-default" role="button">Watch</a></p>
+    </div>
+    </div>
+  </div>
+  `
+})
+class SearchResultComponent {
+  result: SearchResult;
+}
+
 
 /**
  * This class represents the lazy loaded YoutubeComponent.
@@ -54,9 +75,10 @@ class SearchBox implements OnInit {
   templateUrl: 'youtube.component.html',
   styleUrls: ['youtube.component.css'],
   providers: [YoutubeService],
-  directives: [SearchBox]
+  directives: [SearchBoxComponent, SearchResultComponent]
 })
 export class YoutubeComponent {
+  results: SearchResult[];
 
   /**
    * Creates an instance of the YoutubeComponent with the injected
@@ -65,8 +87,9 @@ export class YoutubeComponent {
    * @param youtubeService
    */
   constructor(public youtubeService:YoutubeService) {
-    youtubeService.search('korgi').subscribe((data) => {
-      console.log(data);
-    });
+  }
+
+  updateResults(results: SearchResult[]): void {
+    this.results = results;
   }
 }
